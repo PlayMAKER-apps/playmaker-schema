@@ -1,0 +1,37 @@
+{
+  "format": "tagmaker-project",
+  "version": "0.1",
+  "project": {
+    "match_id": "fixture-game",
+    "name": "Home vs Away",
+    "sport": "basketball",
+    "profile_id": "basketball",
+    "level": "BASIC",
+    "season": "2026-27",
+    "teams": [
+      {"id": "home", "name": "Home"},
+      {"id": "away", "name": "Away"}
+    ],
+    "roster": [
+      {"id": "player-7", "name": "Sample Player", "team_id": "home", "number": 7, "called_up": true, "active": true, "webmaker_player_id": "web-player-7", "webmaker_team_id": "web-home", "webmaker_season": "2026-27", "webmaker_competition": "league"}
+    ],
+    "media": [
+      {"media_id": "clip-a", "path": "../video/first.MTS", "duration_ms": 10000, "size_bytes": null},
+      {"media_id": "clip-b", "path": "../video/second.mp4", "duration_ms": 10000, "size_bytes": null}
+    ],
+    "events": [
+      {"event_id": "event-score", "match_id": "fixture-game", "type": "score_2", "sport": "basketball", "source_media_id": "clip-a", "source_time_ms": 9900, "global_video_time_ms": 9900, "period": "Q1", "game_clock_ms": 100000, "clock_direction": "down", "timestamp_quality": "player-reported-ms", "team_id": "home", "player_id": "player-7", "related_event_ids": [], "points": 2, "note": "", "attributes": {}},
+      {"event_id": "event-snapshot", "match_id": "fixture-game", "type": "score_snapshot", "sport": "basketball", "source_media_id": "clip-b", "source_time_ms": 100, "global_video_time_ms": 10100, "period": "Q1", "game_clock_ms": 98000, "clock_direction": "down", "timestamp_quality": "player-reported-ms", "team_id": null, "player_id": null, "related_event_ids": [], "points": null, "note": "", "attributes": {"scores": {"home": 4, "away": 3}}},
+      {"event_id": "event-turnover", "match_id": "fixture-game", "type": "turnover", "sport": "basketball", "source_media_id": "clip-b", "source_time_ms": 500, "global_video_time_ms": 10500, "period": "Q1", "game_clock_ms": null, "clock_direction": "down", "timestamp_quality": "player-reported-ms", "team_id": "home", "player_id": "player-7", "related_event_ids": ["event-score"], "points": null, "note": "Unsynced game clock", "attributes": {}}
+    ],
+    "period": "Q1",
+    "game_clock_ms": null,
+    "clock_direction": "down",
+    "clock_running": false,
+    "clock_anchor_global_ms": null,
+    "shortcuts": {},
+    "profile_data": {},
+    "theme": "dark",
+    "last_global_video_time_ms": 10500
+  }
+}

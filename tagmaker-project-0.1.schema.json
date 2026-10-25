@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:playmaker:tagmaker-project:0.1",
+  "title": "PlayMAKER TagMAKER interchange 0.1",
+  "type": "object",
+  "required": ["format", "version", "project"],
+  "properties": {
+    "format": {"const": "tagmaker-project"},
+    "version": {"const": "0.1"},
+    "project": {"$ref": "#/$defs/project"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": {"type": "string", "minLength": 1},
+    "ms": {"type": "integer", "minimum": 0},
+    "nullableMs": {"anyOf": [{"$ref": "#/$defs/ms"}, {"type": "null"}]},
+    "nullableId": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+    "direction": {"enum": ["up", "down", null]},
+    "media": {
+      "type": "object",
+      "required": ["media_id", "path", "duration_ms"],
+      "properties": {
+        "media_id": {"$ref": "#/$defs/id"},
+        "path": {"type": "string", "minLength": 1},
+        "duration_ms": {"$ref": "#/$defs/nullableMs"},
+        "size_bytes": {"$ref": "#/$defs/nullableMs"}
+      },
+      "additionalProperties": false
+    },
+    "team": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "name": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "rosterMember": {
+      "type": "object",
+      "required": ["id", "name", "team_id"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "name": {"type": "string", "minLength": 1},
+        "team_id": {"$ref": "#/$defs/nullableId"},
+        "number": {"anyOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "called_up": {"type": "boolean"},
+        "active": {"type": "boolean"},
+        "webmaker_player_id": {"$ref": "#/$defs/nullableId"},
+        "webmaker_team_id": {"$ref": "#/$defs/nullableId"},
+        "webmaker_season": {"type": "string"},
+        "webmaker_competition": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "event": {
+      "type": "object",
+      "required": ["event_id", "match_id", "type", "sport", "source_media_id", "source_time_ms", "global_video_time_ms"],
+      "properties": {
+        "event_id": {"$ref": "#/$defs/id"},
+        "match_id": {"$ref": "#/$defs/id"},
+        "type": {"$ref": "#/$defs/id"},
+        "sport": {"$ref": "#/$defs/id"},
+        "source_media_id": {"$ref": "#/$defs/id"},
+        "source_time_ms": {"$ref": "#/$defs/ms"},
+        "global_video_time_ms": {"$ref": "#/$defs/ms"},
+        "period": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "game_clock_ms": {"$ref": "#/$defs/nullableMs"},
+        "clock_direction": {"$ref": "#/$defs/direction"},
+        "timestamp_quality": {"type": "string", "minLength": 1},
+        "team_id": {"$ref": "#/$defs/nullableId"},
+        "player_id": {"$ref": "#/$defs/nullableId"},
+        "related_event_ids": {"type": "array", "items": {"$ref": "#/$defs/id"}},
+        "points": {"anyOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "note": {"type": "string"},
+        "attributes": {"type": "object"}
+      },
+      "allOf": [{
+        "if": {"properties": {"type": {"enum": ["score_snapshot", "score_correction"]}}, "required": ["type"]},
+        "then": {"properties": {"attributes": {"type": "object", "required": ["scores"], "properties": {"scores": {"type": "object", "additionalProperties": {"$ref": "#/$defs/ms"}}}}}, "required": ["attributes"]}
+      }],
+      "additionalProperties": false
+    },
+    "project": {
+      "type": "object",
+      "required": ["match_id", "name", "sport", "profile_id", "level", "teams", "roster", "media", "events"],
+      "properties": {
+        "match_id": {"$ref": "#/$defs/id"},
+        "name": {"type": "string", "minLength": 1},
+        "sport": {"$ref": "#/$defs/id"},
+        "profile_id": {"$ref": "#/$defs/id"},
+        "level": {"enum": ["BASIC", "STANDARD", "ADVANCED"]},
+        "season": {"type": "string"},
+        "teams": {"type": "array", "items": {"$ref": "#/$defs/team"}},
+        "roster": {"type": "array", "items": {"$ref": "#/$defs/rosterMember"}},
+        "media": {"type": "array", "items": {"$ref": "#/$defs/media"}},
+        "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+        "period": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "game_clock_ms": {"$ref": "#/$defs/nullableMs"},
+        "clock_direction": {"$ref": "#/$defs/direction"},
+        "clock_running": {"type": "boolean"},
+        "clock_anchor_global_ms": {"$ref": "#/$defs/nullableMs"},
+        "shortcuts": {"type": "object", "additionalProperties": {"type": "string"}},
+        "profile_data": {"type": "object"},
+        "theme": {"enum": ["system", "dark", "light"]},
+        "last_global_video_time_ms": {"$ref": "#/$defs/ms"}
+      },
+      "additionalProperties": false
+    }
+  }
+}
