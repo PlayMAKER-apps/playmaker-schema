@@ -43,13 +43,19 @@ their own language.
   cannot be treated as a complete final score merely by summing `points`.
 - WebMAKER source identities on roster members use `webmaker_player_id` and
   `webmaker_team_id`; TagMAKER event `player_id` is its own stable ID.
+- At most one team may set optional `is_our_team: true`. TagMAKER presents that
+  team's called-up players individually and the other teams as team-level
+  choices. This affects the tagging UI, not event attribution: an opponent
+  event has its `team_id` and a null `player_id`.
 
 ## Compatibility policy
 
 TagMAKER exports `format: "tagmaker-project"` and `version: "0.1"`; the file's
-`project` object is defined by the schema. New optional keys require a version
-change and fixture. Renaming, removing, or changing meanings requires a new
-major version. VideoMAKER should use the fixture for importer and round-trip
+`project` object is defined by the schema. The `team` and `rosterMember`
+objects are extensible; consumers should ignore unknown metadata there. New
+top-level project or event keys require a version change and fixture.
+Renaming, removing, or changing meanings requires a new major version.
+VideoMAKER should use the fixture for importer and round-trip
 tests, including clip boundaries, missing game clock, and score corrections.
 SQLite is TagMAKER's local autosave format, not the suite contract.
 

@@ -25,6 +25,8 @@ def validate_document(document: dict) -> None:
                       ("player", player_ids), ("event", event_ids)):
         if len(ids) != len(set(ids)):
             raise ValueError(f"Duplicate {name} ID")
+    if sum(team.get("is_our_team", False) for team in project["teams"]) > 1:
+        raise ValueError("More than one team is marked as our squad")
     for member in project["roster"]:
         if member["team_id"] is not None and member["team_id"] not in team_ids:
             raise ValueError(f"Roster player {member['id']} refers to a missing team")

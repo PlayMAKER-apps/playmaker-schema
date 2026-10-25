@@ -39,6 +39,12 @@ class ContractTests(unittest.TestCase):
         with self.assertRaises(Exception):
             validator.validate_document(broken)
 
+    def test_only_one_our_squad(self):
+        broken = copy.deepcopy(self.document)
+        broken["project"]["teams"][1]["is_our_team"] = True
+        with self.assertRaisesRegex(ValueError, "our squad"):
+            validator.validate_document(broken)
+
 
 if __name__ == "__main__":
     unittest.main()

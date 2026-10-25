@@ -32,7 +32,8 @@
       "required": ["id", "name"],
       "properties": {
         "id": {"$ref": "#/$defs/id"},
-        "name": {"type": "string", "minLength": 1}
+        "name": {"type": "string", "minLength": 1},
+        "is_our_team": {"type": "boolean"}
       },
       "additionalProperties": true
     },

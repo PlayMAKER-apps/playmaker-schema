@@ -9,7 +9,7 @@
     "level": "BASIC",
     "season": "2026-27",
     "teams": [
-      {"id": "home", "name": "Home"},
+      {"id": "home", "name": "Home", "is_our_team": true},
       {"id": "away", "name": "Away"}
     ],
     "roster": [
