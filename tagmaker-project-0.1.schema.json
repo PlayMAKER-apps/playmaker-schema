@@ -46,6 +46,7 @@
         "team_id": {"$ref": "#/$defs/nullableId"},
         "number": {"anyOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
         "called_up": {"type": "boolean"},
+        "starter": {"type": "boolean"},
         "active": {"type": "boolean"},
         "webmaker_player_id": {"$ref": "#/$defs/nullableId"},
         "webmaker_team_id": {"$ref": "#/$defs/nullableId"},

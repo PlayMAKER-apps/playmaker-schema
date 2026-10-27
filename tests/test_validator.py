@@ -45,6 +45,12 @@ class ContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "our squad"):
             validator.validate_document(broken)
 
+    def test_substitution_needs_two_distinct_teammates(self):
+        broken = copy.deepcopy(self.document)
+        broken["project"]["events"][3]["attributes"]["player_in_id"] = "player-7"
+        with self.assertRaisesRegex(ValueError, "substitution players"):
+            validator.validate_document(broken)
+
 
 if __name__ == "__main__":
     unittest.main()

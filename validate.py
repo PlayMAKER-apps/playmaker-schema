@@ -41,6 +41,17 @@ def validate_document(document: dict) -> None:
             raise ValueError(f"Event {identity} refers to missing team")
         if event.get("player_id") is not None and event["player_id"] not in player_ids:
             raise ValueError(f"Event {identity} refers to missing player")
+        if event["type"] == "substitution" and ("player_out_id" in event.get("attributes", {})
+                                                 or "player_in_id" in event.get("attributes", {})):
+            outgoing = event["attributes"].get("player_out_id")
+            incoming = event["attributes"].get("player_in_id")
+            roster = {member["id"]: member for member in project["roster"]}
+            if (not isinstance(outgoing, str) or not isinstance(incoming, str)
+                    or outgoing == incoming or event.get("player_id") != outgoing
+                    or outgoing not in roster or incoming not in roster
+                    or roster[outgoing]["team_id"] != event.get("team_id")
+                    or roster[incoming]["team_id"] != event.get("team_id")):
+                raise ValueError(f"Event {identity} has invalid substitution players")
         if any(other == identity or other not in event_ids for other in event.get("related_event_ids", [])):
             raise ValueError(f"Event {identity} has invalid relations")
         if event["type"] in {"score_snapshot", "score_correction"}:

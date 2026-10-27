@@ -47,6 +47,11 @@ their own language.
   team's called-up players individually and the other teams as team-level
   choices. This affects the tagging UI, not event attribution: an opponent
   event has its `team_id` and a null `player_id`.
+- A basketball roster member may set `starter: true` for the starting five.
+  A completed `substitution` event keeps the outgoing player in `player_id`
+  and records both `attributes.player_out_id` and `attributes.player_in_id`.
+  Those IDs must be different players on `team_id`. Older one-player
+  substitution events remain readable but cannot establish who entered.
 
 ## Compatibility policy
 
