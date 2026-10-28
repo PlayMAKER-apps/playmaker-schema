@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1",
+  "club": { "id": "coastal-fc", "name": "Coastal FC", "sport": "football", "timezone": "Europe/London", "branding": { "primary_color": "#174a6e", "accent_color": "#f0c74e" } },
+  "squads": [{ "id": "coastal-first", "team_id": "coastal-fc", "label": "First team" }],
+  "teams": [{ "id": "coastal-fc", "name": "Coastal FC" }, { "id": "hill-united", "name": "Hill United" }],
+  "competitions": [{ "id": "2026-27/league", "name": "Local League", "season": "2026-27", "squad_ids": ["coastal-first"] }],
+  "fixtures": [{ "id": "match-001", "competition_id": "2026-27/league", "home_team_id": "hill-united", "away_team_id": "coastal-fc", "date": "2026-11-01", "time": "15:00", "status": "scheduled" }],
+  "results": [],
+  "source": { "product": "webmaker", "site_url": "https://example.net/coastal/", "base_path": "/coastal" },
+  "exported_at": "2026-10-28T10:00:00Z"
+}

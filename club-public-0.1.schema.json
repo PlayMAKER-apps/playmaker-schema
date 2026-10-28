@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:playmaker:club-public:0.1",
+  "title": "PlayMAKER public club data 0.1",
+  "type": "object",
+  "required": ["schema_version", "club", "squads", "teams", "competitions", "fixtures", "results", "source", "exported_at"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "club": {
+      "type": "object", "required": ["id", "name", "sport", "timezone", "branding"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "$ref": "#/$defs/name" },
+        "sport": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "timezone": { "type": "string", "minLength": 1 },
+        "branding": { "$ref": "#/$defs/branding" }
+      }, "additionalProperties": false
+    },
+    "squads": { "type": "array", "items": { "type": "object", "required": ["id", "team_id"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "team_id": { "$ref": "#/$defs/id" }, "label": { "$ref": "#/$defs/name" }
+    }, "additionalProperties": false } },
+    "teams": { "type": "array", "items": { "type": "object", "required": ["id", "name"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "name": { "$ref": "#/$defs/name" }, "short_name": { "type": "string" }, "logo_url": { "$ref": "#/$defs/imageUrl" }
+    }, "additionalProperties": false } },
+    "competitions": { "type": "array", "items": { "type": "object", "required": ["id", "name", "season", "squad_ids"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "name": { "$ref": "#/$defs/name" }, "season": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" },
+      "squad_ids": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+    }, "additionalProperties": false } },
+    "fixtures": { "type": "array", "items": { "type": "object", "required": ["id", "competition_id", "home_team_id", "away_team_id", "date", "status"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "competition_id": { "$ref": "#/$defs/id" },
+      "home_team_id": { "$ref": "#/$defs/id" }, "away_team_id": { "$ref": "#/$defs/id" },
+      "date": { "type": "string", "format": "date" }, "time": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+      "venue": { "type": "string" }, "status": { "enum": ["scheduled", "final"] }
+    }, "additionalProperties": false } },
+    "results": { "type": "array", "items": { "type": "object", "required": ["fixture_id", "home_score", "away_score"], "properties": {
+      "fixture_id": { "$ref": "#/$defs/id" }, "home_score": { "type": "integer", "minimum": 0 }, "away_score": { "type": "integer", "minimum": 0 }
+    }, "additionalProperties": false } },
+    "players": { "type": "array", "items": { "type": "object", "required": ["id", "name"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "name": { "$ref": "#/$defs/name" }, "number": { "type": "integer", "minimum": 0 }
+    }, "additionalProperties": false } },
+    "rosters": { "type": "array", "items": { "type": "object", "required": ["id", "squad_id", "competition_id", "player_ids"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "squad_id": { "$ref": "#/$defs/id" }, "competition_id": { "$ref": "#/$defs/id" },
+      "player_ids": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+    }, "additionalProperties": false } },
+    "player_stats": { "type": "array", "items": { "type": "object", "required": ["fixture_id", "player_id", "values"], "properties": {
+      "fixture_id": { "$ref": "#/$defs/id" }, "player_id": { "$ref": "#/$defs/id" },
+      "values": { "type": "object", "additionalProperties": { "type": "number", "minimum": 0 } }
+    }, "additionalProperties": false } },
+    "sponsors": { "type": "array", "items": { "type": "object", "required": ["id", "name", "logo_url"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "name": { "$ref": "#/$defs/name" }, "logo_url": { "$ref": "#/$defs/imageUrl" }, "license": { "$ref": "#/$defs/name" }
+    }, "additionalProperties": false } },
+    "source": { "type": "object", "required": ["product", "site_url", "base_path"], "properties": {
+      "product": { "const": "webmaker" }, "site_url": { "type": "string", "pattern": "^https://" },
+      "base_path": { "type": "string", "pattern": "^$|^/[a-zA-Z0-9/_-]+$" }
+    }, "additionalProperties": false },
+    "exported_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "imageUrl": { "type": "string", "pattern": "^(https://[^\\s]+|/[^\\s]+)\\.(png|jpe?g|webp|svg)(\\?[^\\s]*)?$" },
+    "branding": { "type": "object", "required": ["primary_color", "accent_color"], "properties": {
+      "primary_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+      "accent_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+      "logo_url": { "$ref": "#/$defs/imageUrl" }
+    }, "additionalProperties": false }
+  }
+}

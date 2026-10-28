@@ -66,3 +66,33 @@ SQLite is TagMAKER's local autosave format, not the suite contract.
 
 The WebMAKER Studio CSV is a separate, per-game reporting format. It cannot
 represent the event timeline; see TagMAKER's WebMAKER export documentation.
+
+## Public club data 0.1
+
+[`club-public-0.1.schema.json`](club-public-0.1.schema.json) is a separate,
+versioned contract for data a club has chosen to publish. It does not change
+the TagMAKER event timeline contract. WebMAKER may export it; PostMAKER may
+import it. Validate with `python validate_club.py public-club.json`.
+Synthetic [basketball](fixtures/club-public-basketball-0.1.json) and
+[football](fixtures/club-public-football-0.1.json) fixtures cover optional
+fields and two rosters for one squad in separate competitions.
+
+The club timezone is an IANA name. Fixture `date` is `YYYY-MM-DD` in that
+timezone; optional `time` is local `HH:MM` (24-hour), never an implicit UTC
+instant. `home_team_id` and `away_team_id` refer to distinct teams. A `result`
+exists only for a final fixture; absent scores remain absent. IDs remain stable
+across exports. A squad identifies a club team; a roster identifies that squad
+in one competition, so a squad can have several rosters.
+
+Image URLs are HTTPS or root-relative paths ending in PNG, JPEG, WebP, or SVG.
+Relative paths resolve against `source.site_url`'s origin, including the
+documented `source.base_path` where applicable. Exporters should include only
+licensed or authorized public logos and sponsors. Consumers must handle CORS
+and missing assets. This contract never carries credentials, private contact
+details, unpublished personal data, minors' birth dates, or restricted media.
+
+Consumers reject any `schema_version` other than `0.1`. New optional fields
+require a documented 0.2 version and fixture; renames or meaning changes
+require a new major version. Unknown fields are rejected in 0.1 to prevent
+accidental disclosure. `exported_at` is an ISO 8601 UTC timestamp from the
+export operation, not a last-modified time for every underlying record.

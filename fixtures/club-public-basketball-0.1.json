@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1",
+  "club": { "id": "harbor-club", "name": "Harbor Club", "sport": "basketball", "timezone": "Europe/Rome", "branding": { "primary_color": "#123456", "accent_color": "#f0a64a", "logo_url": "https://example.org/assets/harbor.png" } },
+  "squads": [{ "id": "harbor-senior", "team_id": "harbor-hawks", "label": "Senior" }],
+  "teams": [
+    { "id": "harbor-hawks", "name": "Harbor Hawks", "short_name": "Hawks", "logo_url": "https://example.org/assets/hawks.png" },
+    { "id": "river-foxes", "name": "River Foxes" }
+  ],
+  "competitions": [
+    { "id": "2026-27/league", "name": "Community League", "season": "2026-27", "squad_ids": ["harbor-senior"] },
+    { "id": "2026-27/cup", "name": "City Cup", "season": "2026-27", "squad_ids": ["harbor-senior"] }
+  ],
+  "fixtures": [
+    { "id": "game-001", "competition_id": "2026-27/league", "home_team_id": "harbor-hawks", "away_team_id": "river-foxes", "date": "2026-11-08", "time": "18:30", "venue": "North Hall", "status": "final" },
+    { "id": "game-002", "competition_id": "2026-27/cup", "home_team_id": "river-foxes", "away_team_id": "harbor-hawks", "date": "2026-11-15", "status": "scheduled" }
+  ],
+  "results": [{ "fixture_id": "game-001", "home_score": 72, "away_score": 68 }],
+  "players": [{ "id": "player-a", "name": "Alex Player", "number": 7 }, { "id": "player-b", "name": "Sam Player", "number": 12 }],
+  "rosters": [
+    { "id": "roster-league", "squad_id": "harbor-senior", "competition_id": "2026-27/league", "player_ids": ["player-a", "player-b"] },
+    { "id": "roster-cup", "squad_id": "harbor-senior", "competition_id": "2026-27/cup", "player_ids": ["player-a"] }
+  ],
+  "sponsors": [{ "id": "sponsor-a", "name": "Example Sponsor", "logo_url": "https://example.org/assets/sponsor.webp", "license": "Synthetic test asset" }],
+  "source": { "product": "webmaker", "site_url": "https://example.org/", "base_path": "" },
+  "exported_at": "2026-10-28T10:00:00Z"
+}
